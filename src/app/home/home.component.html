@@ -1,0 +1,77 @@
+<body>
+  <!-- SIDEBAR -->
+  <section id="sidebar">
+    <div style="padding-bottom: 20px;" class="boxIcon">
+      <img src="../../assets/ingenieria-de-software.png">
+      <p>App-Agenda</p>
+    </div>
+    <ul class="side-menu top">
+      <li class="active">
+        <a [routerLink]="['/home']">
+          <i class="bx bxs-dashboard"></i>
+          <span class="text">Inicio</span>
+        </a>
+      </li>
+      <li >
+        <a [routerLink]="['/agenda']">
+          <i class='bx bx-book-bookmark'></i>
+          <span class="text">Agenda</span>
+        </a>
+      </li>
+    </ul>
+    
+  </section>
+  <!-- SIDEBAR -->
+
+  <!-- CONTENT -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i (click)="changeSidebar()" class="bx bx-menu"></i>
+      <div style="width: 90%"></div>
+      <a href="#" class="profile">
+      </a>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1>Inicio</h1>
+          <ul class="breadcrumb">
+            <li>
+              <a>Inicio</a>
+            </li>
+            <li><i class="bx bx-chevron-right"></i></li>
+            <li>
+              <a class="active">Home</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container-fluid">
+        <div style="padding: 20px;">
+          <strong>¡Bienvenido al sistema Agenda-App!</strong>
+          <!-- <p>Usuario: <strong > {{userLocalStorage.name}}</strong> Área: <strong >{{userLocalStorage.area}}</strong> </p> -->
+          <p style="padding-top:10px ; padding-bottom: 10px ;">Modulos a los cuales puedes acceder:</p>
+          <p ><strong>* Agenda: </strong> En este módulo podrás gestionar tu agenda de tareas.</p>
+          </div>
+        
+        <ul class="box-info">
+          <li >
+            <i class='bx bx-book-bookmark'></i>
+            <span class="text">
+              <!-- <h3>{{ totalTools ? totalTools : 0 }}</h3> -->
+              <p>Registro Agenda</p>
+            </span>
+          </li>
+        </ul>
+        
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+</body>

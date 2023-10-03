@@ -1,0 +1,187 @@
+<body>
+  
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <div style="padding-bottom: 20px;" class="boxIcon">
+          <img src="../../assets/ingenieria-de-software.png">
+          <p>App-Agenda</p>
+        </div>
+        <ul class="side-menu top">
+          <li >
+            <a [routerLink]="['/home']">
+              <i class="bx bxs-dashboard"></i>
+              <span class="text">Inicio</span>
+            </a>
+          </li>
+          <li class="active">
+            <a [routerLink]="['/agenda']">
+              <i class='bx bx-book-bookmark'></i>
+              <span class="text">Agenda</span>
+            </a>
+          </li>
+        </ul>
+        
+      </section>
+    <!-- SIDEBAR -->
+  
+    <!-- CONTENT -->
+    <section id="content">
+      <!-- NAVBAR -->
+      <nav>
+        <i class="bx bx-menu" (click)="changeSidebar()"></i>
+        <div style="width: 90%"></div>
+        <a href="#" class="profile">
+        </a>
+      </nav>
+      <!-- NAVBAR -->
+  
+      <!-- MAIN -->
+      <main>
+        <div class="head-title">
+          <div class="left">
+            <h1>Contactos</h1>
+            <ul class="breadcrumb">
+              <li>
+                <a>Contactos</a>
+              </li>
+              <li><i class="bx bx-chevron-right"></i></li>
+              <li>
+                <a class="active">Home</a>
+              </li>
+            </ul>
+          </div>
+          <div style="padding-right: 5%;">
+            <button  class="p-button-rounded-sm  p-mr-2" pTooltip="Acciones" tooltipPosition="top" pButton type="button" (click)="menu.toggle($event)" icon="pi pi-th-large"></button>
+            <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+          </div>
+        </div>
+        <br>
+        <p-toast  appendTo="body" [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+
+        <div class="card text-center">
+          <div class="card-header" style="padding: 15px;">
+            <h3>Control de Contactos</h3>
+          </div>
+              <p-table
+              #dt
+              [scrollable]="true"
+              filter="true"
+              [value]="contacts"
+              [rowHover]="true"
+              scrollHeight="300px" 
+              [resizableColumns]="true"
+              [paginator]="true"
+              [rows]="5"
+              [totalRecords]="totalRecords"
+              [loading]="loading"
+              [showCurrentPageReport]="true"
+              [resizableColumns]="true"
+              [autoLayout]="true"
+              [styleClass]="selectedSize"
+              currentPageReportTemplate="Vista {first} a {last} de {totalRecords} registros"
+              [globalFilterFields]="[ 'name','area','email']"
+            >
+            <ng-template pTemplate="caption">
+                  <div class="p-d-flex">
+                    <!-- <button type="button" pButton icon="bx bx-group"  pRipple class="p-button-rounded-sm p-mr-2" pTooltip="Total de Registros" tooltipPosition="right">{{this.total}}</button> -->
+                    <button type="button" pButton icon="bx bx-plus" (click)="showHistory()" pRipple class="p-button-rounded-sm p-mr-2" pTooltip="Añadir Contacto" tooltipPosition="right"></button>
+                    <h5 class="p-input-icon-left p-ml-auto"></h5>
+                      <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pTooltip="Filtra por:
+                          Nombre , Area , email " tooltipPosition="top" pInputText  #textInput type="text" style="border-radius: 18px; height:45px;" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." /> 
+                      </span>
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="name" style="min-width:15rem">Nombre Completo <p-sortIcon field="name"></p-sortIcon></th>
+                  <th pSortableColumn="email" style="min-width:15rem">Email <p-sortIcon field="email"></p-sortIcon></th>
+                  <th pSortableColumn="area">Celular <p-sortIcon field="area"></p-sortIcon></th>
+                  <th>Opciones</th>
+              </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-contact>
+                  <tr>
+                    <td>{{contact.name }} {{contact.lastName}}</td>
+                    <td>{{contact.email}}</td>
+                    <td>{{contact.phone}}</td>
+                    
+                    <td >
+                        <button pTooltip="Eliminar"  pButton pRipple icon="pi pi-trash"  class="p-button-rounded-sm p-button-danger p-mr-2" (click)="deleteContact(contact)"></button>
+                    </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    En total hay {{total ? total : 0 }} Usuarios.
+                </div>
+            </ng-template>
+              </p-table>
+              
+      </div>
+  
+        <p-confirmDialog acceptLabel="Si" [style]="{width: '450px'}"></p-confirmDialog>
+      </main>
+      <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+    <!-- Modal -->
+    <div class="loading-overlay" *ngIf="visibleDialog">
+      <div class="loading-container">
+          <p-dialog  header="Añadir" [(visible)]="visibleDialog" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [draggable]="true" [resizable]="true">
+              <div class="container-fluid">
+                  <form [formGroup]="formContact">
+                      <div class="flex justify-content-center"> 
+                          <div class="p-grid p-fluid">
+                              <div class="p-col-12 p-md-6" style="padding-left: 15px">
+                                  <div class="input-field">
+                                      <label for="name">Nombre</label>
+                                      <input type="text" pInputText
+                                        id="name"
+                                        formControlName="name"
+                                        style="height: 42px;padding-left: 10px;"
+                                      />
+                                  </div>
+                              </div>
+                              <div class="p-col-12 p-md-6" style="padding-left: 15px">
+                                  <div class="input-field">
+                                      <label for="lastName">Apellido</label>
+                                      <input style="height: 42px;padding-left: 10px;" type="text" pInputText
+                                        id="lastName"
+                                        formControlName="lastName"
+                                      />
+                                  </div>
+                              </div>
+                              <div class="p-col-12 p-md-6" style="padding-left: 15px">
+                                  <div class="input-field">
+                                      <label for="email">Correo</label>
+                                      <input style="height: 42px;padding-left: 10px;" type="text" pInputText
+                                        id="email"
+                                        formControlName="email"
+                                      />
+                                  </div>
+                              </div>
+                              <div  class="p-col-12 p-md-6" style="padding-left: 15px">
+                                  <div class="input-field">
+                                      <label for="phone">Celular</label>
+                                      <input type="text" pInputText
+                                        style="height: 42px;padding-left: 10px;"
+                                        id="phone"
+                                        formControlName="phone"
+                                      />
+                                  </div>
+                              </div>
+                              <div class="p-col-12 p-md-12" style="padding-left: 15px;padding-top: 15px;">
+                                <div class="input-field p-d-flex p-jc-center">
+                                  <button pButton label="Guardar" (click)="saveContact()"  type="submit" [disabled]="this.formContact.invalid" class="custom-button"></button>
+                                </div>
+                              </div>                              
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </p-dialog>
+      </div>
+    </div>
+  </body>
