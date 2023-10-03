@@ -19,20 +19,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public totalQuotes:number;
-  public totalEmployees:number;
-  public totalUsers:number;
-  public totalClients:number;
-  public totalTools:number;
-  public totalSupplies:number;
-  public img:any;
-
   constructor() {}
 
   ngOnInit(): void {
   }
 
-
+  //cambia el tamaño del menu
   changeSidebar() {
     const sidebar = document.getElementById('sidebar');
     sidebar?.classList.toggle('hide');

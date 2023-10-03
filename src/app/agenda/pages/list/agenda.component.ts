@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ConfirmationService,
-  LazyLoadEvent,
   MenuItem,
   MessageService,
 } from 'primeng/api';
@@ -15,6 +14,7 @@ import { ExcelService } from 'src/app/core/services/excel.service';
   styleUrls: ['./agenda.component.css'],
 })
 export class AgendaComponent implements OnInit {
+  //variables necesarias
   selectedSize = 'p-datatable-sm';
 
   public formContact: FormGroup;
@@ -28,7 +28,7 @@ export class AgendaComponent implements OnInit {
   visibleDialog: boolean = false;
   visibleUpdateDialog: boolean = false;
   visibleConfirm: boolean = false;
-
+  //Opciones de acciones solo excel
   items: MenuItem[] = [
     {
       label: 'Descargar Excel',
@@ -45,6 +45,7 @@ export class AgendaComponent implements OnInit {
     private excelService: ExcelService,
     private fb: FormBuilder
   ) {
+    //Campos del formulario
     this.formContact = this.fb.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -55,7 +56,7 @@ export class AgendaComponent implements OnInit {
 
   ngOnInit(): void {}
 
-
+  //No implementada
   updateContact(contact: Contact) {
     this.visibleUpdateDialog = true;
     this.formContact.patchValue({
@@ -76,7 +77,7 @@ export class AgendaComponent implements OnInit {
       }
     });
   }
-
+  //Guarda el contacto
   saveContact() {
     let newContact: Contact = new Contact();
 
@@ -122,7 +123,7 @@ export class AgendaComponent implements OnInit {
       this.total = this.contacts.length;
     }
   }
-
+  //Elimina un contacto de la lista
   deleteContact(contact: Contact) {
     this.confirmationService.confirm({
       message: `¿Estás seguro de eliminar el contacto?`,
@@ -140,12 +141,12 @@ export class AgendaComponent implements OnInit {
       }})
     this.total = this.contacts.length;
   }
-
+  //Habilita el menu si se desea
   changeSidebar() {
     const sidebar = document.getElementById('sidebar');
     sidebar?.classList.toggle('hide');
   }
-
+  //Funcion para descargar Excel
   downloadExcel() {
     let filterList: any[] = [];
 
@@ -169,39 +170,9 @@ export class AgendaComponent implements OnInit {
       this.excelService.downloadExcel(filterList, 'Contactos');
     }
   }
-
+  //Despliega el modal 
   showHistory() {
     this.visibleDialog = true;
-
-    this.formContact.patchValue({
-      // proyect: history.proyect,
-      // typeItem: history.typeItem,
-      // dateInside: history.dateInside,
-      // dateOutside: history.dateOutside,
-      // type: history.type ,
-      // employee: history.employee,
-      // amount:history.amount ,
-      // date:history.date,
-      // dateShop: history.dateShop,
-      // item: history.item,
-      // idBill: history.idBill,
-    });
-  }
-
-  loadInventoryLazy(event?: LazyLoadEvent): void {
-    // this.loading = true;
-    // const desde = event!.first;
-    // const limite = event!.rows;
-    // const filters = event!.filters;
-    // setTimeout(() => {
-    //   this.staffService.findByPage(desde, limite, filters)
-    //   .subscribe(
-    //     {next : (data) => {
-    //         this.totalRecords = data.totalResults;
-    //         this.users = data.docs;
-    //         this.loading = false;
-    //       }}
-    //   );
-    // },100)
+    this.formContact.patchValue({});
   }
 }
